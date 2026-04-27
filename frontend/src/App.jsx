@@ -32,7 +32,7 @@ function MainApp() {
   const syncCartToBackend = useCallback(async (items) => {
     if (!user?.id) return;
     try {
-      await fetch('http://localhost:5000/api/cart/sync', {
+      await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/cart/sync`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, cart: items })

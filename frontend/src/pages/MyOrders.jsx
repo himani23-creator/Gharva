@@ -19,7 +19,7 @@ export default function MyOrders({ user }) {
 
   const fetchOrders = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/my/${user.id}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/orders/my/${user.id}`);
       const data = await res.json();
       if (res.ok) setOrders(data);
     } catch (err) {

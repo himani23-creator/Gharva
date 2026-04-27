@@ -45,7 +45,7 @@ export default function Navbar({ toggleCart, user, setUser, onSignOut, cartCount
     if (!user?.id) return;
     setSavingAddress(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/user/${user.id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/user/${user.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: user.name, phone: user.phone, address })
@@ -61,7 +61,7 @@ export default function Navbar({ toggleCart, user, setUser, onSignOut, cartCount
     if (!user?.id) return;
     setSavingProfile(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/user/${user.id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/user/${user.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profileForm)

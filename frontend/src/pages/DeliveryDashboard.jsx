@@ -9,7 +9,7 @@ export default function DeliveryDashboard({ user }) {
 
   const fetchAvailable = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/orders/available-deliveries');
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/orders/available-deliveries`);
       const data = await res.json();
       if (res.ok) setAvailableOrders(data);
     } catch (err) { console.error(err); }
@@ -17,7 +17,7 @@ export default function DeliveryDashboard({ user }) {
 
   const fetchMine = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/my-deliveries/${user.id}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/orders/my-deliveries/${user.id}`);
       const data = await res.json();
       if (res.ok) setMyDeliveries(data);
     } catch (err) { console.error(err); }
@@ -33,7 +33,7 @@ export default function DeliveryDashboard({ user }) {
   const acceptDelivery = async (orderId) => {
     setActionLoading(prev => ({ ...prev, [orderId]: 'accepting' }));
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/${orderId}/accept-delivery`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/orders/${orderId}/accept-delivery`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ partnerId: user.id })
@@ -53,7 +53,7 @@ export default function DeliveryDashboard({ user }) {
   const markDelivered = async (orderId) => {
     setActionLoading(prev => ({ ...prev, [orderId]: 'delivering' }));
     try {
-      await fetch(`http://localhost:5000/api/orders/${orderId}/delivered`, { method: 'PUT' });
+      await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/orders/${orderId}/delivered`, { method: 'PUT' });
       await fetchMine();
     } catch (err) { alert('Request failed'); }
     finally { setActionLoading(prev => ({ ...prev, [orderId]: null })); }

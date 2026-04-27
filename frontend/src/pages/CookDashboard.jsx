@@ -26,7 +26,7 @@ export default function CookDashboard({ user }) {
 
   const fetchOrders = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/incoming/${user.id}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/orders/incoming/${user.id}`);
       const data = await res.json();
       if (res.ok) setOrders(data);
     } catch (err) { console.error(err); }
@@ -34,7 +34,7 @@ export default function CookDashboard({ user }) {
 
   const fetchMenu = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/menu/my/${user.id}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/menu/my/${user.id}`);
       const data = await res.json();
       if (res.ok) setMenuItems(data);
     } catch (err) { console.error(err); }
@@ -52,7 +52,7 @@ export default function CookDashboard({ user }) {
   const orderAction = async (orderId, action) => {
     setOrderLoading(orderId, action);
     try {
-      await fetch(`http://localhost:5000/api/orders/${orderId}/${action}`, { method: 'PUT' });
+      await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/orders/${orderId}/${action}`, { method: 'PUT' });
       await fetchOrders();
     } catch (err) { alert('Action failed'); }
     finally { setOrderLoading(orderId, null); }
@@ -62,7 +62,7 @@ export default function CookDashboard({ user }) {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/menu', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/menu`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, price: parseFloat(form.price), stock: parseInt(form.stock), cookId: user.id })
@@ -81,12 +81,12 @@ export default function CookDashboard({ user }) {
 
   const handleDeleteItem = async (id) => {
     if (!confirm('Delete this item?')) return;
-    await fetch(`http://localhost:5000/api/menu/${id}`, { method: 'DELETE' });
+    await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/menu/${id}`, { method: 'DELETE' });
     fetchMenu();
   };
 
   const updateStock = async (id, newStock) => {
-    await fetch(`http://localhost:5000/api/menu/${id}`, {
+    await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/menu/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ stock: parseInt(newStock) })

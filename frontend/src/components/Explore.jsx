@@ -51,12 +51,12 @@ export default function Explore({ addToCart, vegMode, user }) {
   const fetchMenu = async () => {
     setLoading(true);
     try {
-      let url = 'http://localhost:5000/api/menu';
+      let url = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/menu`;
       if (vegMode === true) url += '?isVeg=true';
       else if (vegMode === false) url += '?isVeg=false';
       const [menuRes, kitchenRes] = await Promise.all([
         fetch(url),
-        fetch('http://localhost:5000/api/menu/kitchens')
+        fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/menu/kitchens`)
       ]);
       if (menuRes.ok) setMenuItems(await menuRes.json());
       if (kitchenRes.ok) setKitchens(await kitchenRes.json());

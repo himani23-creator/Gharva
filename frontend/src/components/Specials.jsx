@@ -9,7 +9,7 @@ export default function Specials({ addToCart, vegMode }) {
   const fetchSpecials = async () => {
     setLoading(true);
     try {
-      let url = 'http://localhost:5000/api/menu';
+      let url = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/menu`;
       if (vegMode === true) url += '?isVeg=true';
       else if (vegMode === false) url += '?isVeg=false';
       
